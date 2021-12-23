@@ -23,20 +23,11 @@ def cameraOpen():
     # open webcam for parsing video
     cap = cv2.VideoCapture(0)
 
-    # while(True):
-    #     ret, frame = cap.read()
-
-    #     grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-    #     thresh, blackAndWhiteFrame = cv2.threshold(
-    #         grayFrame, 127, 255, cv2.THRESH_BINARY)
-
-    #     cv2.imshow('video bw', blackAndWhiteFrame)
-    #     #comment me out if you only want to see black and white
-    #     cv2.imshow('video original', frame)
 
     with mp_pose.Pose(
-        min_detection_confidence=0.5,
+        #dropping down the confidence threshold to 0.25 from .5 to make more data
+        # if causing errors due to inacuracy raise confidence threshold
+        min_detection_confidence=0.25,
         min_tracking_confidence=0.5
     ) as pose_solution:
 
@@ -58,7 +49,7 @@ def cameraOpen():
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = pose_solution.process(frame)
 
-                # post processs results
+            # post processs results
             frame.flags.writeable = True
             frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
             mp_drawing.draw_landmarks(
