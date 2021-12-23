@@ -2,7 +2,9 @@ import cv2
 import mediapipe as mp
 import math
 import numpy as np
-
+import plotly.express as px 
+import pandas as pd
+import plotGenerator
 
 def asciiArt():
     # make a cool ASCII graphic later -- those are cool
@@ -10,7 +12,11 @@ def asciiArt():
 
 # add frame rate later
 
+def makeplot(results):
+    mp_drawing = mp.solutions.drawing_utils
+    mp_pose = mp.solutions.pose
 
+    mp_drawing.plot_pose_skeleton(results.pose_skeleton)
 def cameraOpen():
 
     # mediapipe api handles pose detection
@@ -28,7 +34,8 @@ def cameraOpen():
         #dropping down the confidence threshold to 0.25 from .5 to make more data
         # if causing errors due to inacuracy raise confidence threshold
         min_detection_confidence=0.25,
-        min_tracking_confidence=0.5
+        min_tracking_confidence=0.5,
+        model_complexity=2
     ) as pose_solution:
 
         maxTry = 10
@@ -58,14 +65,19 @@ def cameraOpen():
                 mp_pose.POSE_CONNECTIONS,
                 landmark_drawing_spec=mp_drawing_styles.get_default_pose_landmarks_style()
             )
-            
-        
-            cv2.imshow('video', frame)
 
-            #exit clause    
+            #plot 3d results
+            
+            #  only returns a static image until the next frame is processed and figure is closed 
+            #  #makeplot(results)
+
+            plotGenerator.plot_landmarks_animated(results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+            
+                        # display results
+            cv2.imshow("POSE-DETECTOR-INATOR", frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-
+            
     cap.release()
     cap.destroyAllWindows()
 
