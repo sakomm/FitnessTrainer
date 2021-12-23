@@ -1,6 +1,8 @@
-import math
 import cv2
+import mediapipe as mp
+import math
 import numpy as np
+
 
 def asciiArt():
     # make a cool ASCII graphic later -- those are cool
@@ -8,6 +10,12 @@ def asciiArt():
 
 #add frame rate later
 def cameraOpen():
+
+    #mediapipe api handles pose detection
+    mp_drawing = mp.solutions.drawing_utils
+    mp_drawing_styles = mp.solutions.drawing_styles
+    mp_pose = mp.solutions.pose
+
     # log start of program;
     print("Starting Camera")
     # open webcam for parsing video
@@ -23,9 +31,27 @@ def cameraOpen():
             grayFrame, 127, 255, cv2.THRESH_BINARY)
 
         cv2.imshow('video bw', blackAndWhiteFrame)
-
         #comment me out if you only want to see black and white
         cv2.imshow('video original', frame)
+
+        with mp_pose.Pose(
+            min_detection_confidance=0.5,
+            min_tracking_confidence=0.5
+        ) as pose_solution:
+
+            maxTry = 10
+            attempt = 0
+
+            while cap.isOpened():
+                ret, frame = cap.read()
+                if not ret:
+                    print("CAMMERA FAILED TO OPEN")
+                    if (attempt == maxTry):
+                        break
+                    else:
+                        attempt += 1
+                
+                
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
