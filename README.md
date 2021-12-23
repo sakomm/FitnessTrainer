@@ -15,7 +15,7 @@ requirements:
 - python
 
 Goals:  
-- Track key points -- Completed 12/23/21 
+- Track key points -- Completed 12/23/21 kinda
 - Detect pose (exercise we will be tracking is the plank)
 - Determine if pose is correct
     - if pose is correct, then provide message to user
