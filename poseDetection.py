@@ -8,17 +8,23 @@ import plotGenerator
 
 def asciiArt():
     # make a cool ASCII graphic later -- those are cool
-    print("INSERT ASCII HERE")
+    print("       _             _    ")
+    print("      | |           | |   ")
+    print(" _ __ | | __ _ _ __ | | __")
+    print("| '_ \| |/ _` | '_ \| |/ /")
+    print("| |_) | | (_| | | | |   < ")
+    print("| .__/|_|\__,_|_| |_|_|\_\\")
+    print("| |                       ")
+    print("|_|                       ")
 
-# add frame rate later
 
 def makeplot(results):
     mp_drawing = mp.solutions.drawing_utils
     mp_pose = mp.solutions.pose
 
     mp_drawing.plot_pose_skeleton(results.pose_skeleton)
+    
 def cameraOpen():
-
     # mediapipe api handles pose detection
     mp_drawing = mp.solutions.drawing_utils
     mp_drawing_styles = mp.solutions.drawing_styles
