@@ -68,9 +68,16 @@ def cameraOpen():
             
             #  only returns a static image until the next frame is processed and figure is closed 
             # plotGenerator.plot_landmarks_animated(results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
-
-
             
+            # print keypoints 
+            print(results.pose_landmarks.landmark)
+
+            # print pose results
+            # know we know how to access the landmarks
+            print(results.pose_landmarks.landmark[3].visibility)
+
+   
+
                         # display results
             cv2.imshow("POSE-DETECTOR-INATOR", frame)
             
