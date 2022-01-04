@@ -1,10 +1,6 @@
 import cv2
 import mediapipe as mp
 import math
-import numpy as np
-import plotly.express as px 
-import pandas as pd
-import plotGenerator
 
 def asciiArt():
     # make a cool ASCII graphic later -- those are cool
@@ -18,12 +14,7 @@ def asciiArt():
     print("|_|                       ")
 
 
-def makeplot(results):
-    mp_drawing = mp.solutions.drawing_utils
-    mp_pose = mp.solutions.pose
-
-    mp_drawing.plot_pose_skeleton(results.pose_skeleton)
-    
+   
 def cameraOpen():
     # mediapipe api handles pose detection
     mp_drawing = mp.solutions.drawing_utils
@@ -49,6 +40,7 @@ def cameraOpen():
 
         while cap.isOpened():
             ret, frame = cap.read()
+
             if not ret:
                 print("CAMMERA FAILED TO OPEN")
                 if (attempt == maxTry):
@@ -75,12 +67,13 @@ def cameraOpen():
             #plot 3d results
             
             #  only returns a static image until the next frame is processed and figure is closed 
-            #  #makeplot(results)
+            # plotGenerator.plot_landmarks_animated(results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
 
-            plotGenerator.plot_landmarks_animated(results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+
             
                         # display results
             cv2.imshow("POSE-DETECTOR-INATOR", frame)
+            
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
             
