@@ -12,8 +12,6 @@ def asciiArt():
     print("| .__/|_|\__,_|_| |_|_|\_\\")
     print("| |                       ")
     print("|_|                       ")
-
-
    
 def cameraOpen():
     # mediapipe api handles pose detection
@@ -68,17 +66,8 @@ def cameraOpen():
             
             #  only returns a static image until the next frame is processed and figure is closed 
             # plotGenerator.plot_landmarks_animated(results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
-            
-            # print keypoints 
-            print(results.pose_landmarks.landmark)
-
-            # print pose results
-            # know we know how to access the landmarks
-            print(results.pose_landmarks.landmark[3].visibility)
-
-   
-
-                        # display results
+                      
+            # display results
             cv2.imshow("POSE-DETECTOR-INATOR", frame)
             
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -87,9 +76,25 @@ def cameraOpen():
     cap.release()
     cap.destroyAllWindows()
 
+def angleCalc(landmarkA, landmarkB, landmarkC):
+
+    # get the x and y coordinates of the landmarks
+    xA, yA ,zA= landmarkA
+    xB, yB ,zB= landmarkB
+    xC, yC ,zC= landmarkC
+
+    # use the theta cosine rule to find the angle between the two vectors
+    # theta = acos((a^2 + b^2 - c^2)/(2ab))
+    angle = math.degrees(math.atan2(yC - yB, xC - xB) - math.atan2(yA - yB, xA - xB))
+
+    return angle
+
+
 
 def main():
     asciiArt()
+    angleTest = angleCalc((558, 326, 0), (642, 333, 0), (718, 321, 0))
+    print(f'The calculated angle is {angleTest}')
     cameraOpen()
 
 
